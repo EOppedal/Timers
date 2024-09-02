@@ -2,7 +2,7 @@
 using System.Threading;
 using UnityEngine;
 
-public class AwaitableTimer {
+public class Timer {
     public event Action OnComplete = delegate { };
     public event Action OnUpdate = delegate { };
     public event Action OnBegin = delegate { };
@@ -24,7 +24,7 @@ public class AwaitableTimer {
     private CancellationTokenSource _cancellationTokenSource;
     private bool _isRunning;
 
-    public AwaitableTimer(float time, bool startImmediately = true) {
+    public Timer(float time, bool startImmediately = true) {
         TotalTime = time;
         if (startImmediately) _ = StartTimer();
     }
