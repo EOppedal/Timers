@@ -1,0 +1,9 @@
+{
+  "name": "com.erlend-eiken-oppedal.timers",
+  "version": "1.0.0",
+  "displayName": "Timers",
+  "author": {
+    "name": "Erlend Eiken Oppedal",
+    "email": "erlend.oppedal@gmail.com"
+  }
+}
