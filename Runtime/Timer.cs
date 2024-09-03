@@ -3,10 +3,10 @@ using System.Threading;
 using UnityEngine;
 
 public class Timer {
-    public event Action OnComplete = delegate { };
-    public event Action OnUpdate = delegate { };
-    public event Action OnBegin = delegate { };
-    public event Action OnCancel = delegate { };
+    public Action OnComplete = delegate { };
+    public Action OnUpdate = delegate { };
+    public Action OnBegin = delegate { };
+    public Action OnCancel = delegate { };
 
     public float TotalTime;
     public float ProgressTime => TotalTime * CurrentProgress;
@@ -14,22 +14,22 @@ public class Timer {
 
     public float CurrentProgress {
         get => _currentProgress;
-        private set {
+        protected set {
             _currentProgress = Mathf.Clamp01(value);
             OnUpdate.Invoke();
         }
     }
 
     private float _currentProgress;
-    private CancellationTokenSource _cancellationTokenSource;
-    private bool _isRunning;
+    protected CancellationTokenSource _cancellationTokenSource;
+    protected bool _isRunning;
 
-    public Timer(float time, bool startImmediately = true) {
+    protected Timer(float time, bool startImmediately = true) {
         TotalTime = time;
         if (startImmediately) _ = StartTimer();
     }
 
-    public async Awaitable StartTimer() {
+    public virtual async Awaitable StartTimer() {
         if (_isRunning) return;
 
         _cancellationTokenSource = new CancellationTokenSource();
