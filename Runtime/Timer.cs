@@ -24,7 +24,7 @@ public class Timer {
     protected CancellationTokenSource _cancellationTokenSource;
     protected bool _isRunning;
 
-    protected Timer(float time, bool startImmediately = true) {
+    public Timer(float time, bool startImmediately = true) {
         TotalTime = time;
         if (startImmediately) _ = StartTimer();
     }
