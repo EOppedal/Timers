@@ -3,10 +3,10 @@ using System.Threading;
 using UnityEngine;
 
 public class Timer {
-    public Action OnComplete = delegate { };
-    public Action OnUpdate = delegate { };
-    public Action OnBegin = delegate { };
-    public Action OnCancel = delegate { };
+    public event Action OnComplete = delegate { };
+    public event Action OnUpdate = delegate { };
+    public event Action OnBegin = delegate { };
+    public event Action OnCancel = delegate { };
 
     public float TotalTime;
     public float ProgressTime => TotalTime * CurrentProgress;
@@ -21,8 +21,8 @@ public class Timer {
     }
 
     private float _currentProgress;
-    protected CancellationTokenSource _cancellationTokenSource;
-    protected bool _isRunning;
+    protected CancellationTokenSource CancellationTokenSource;
+    protected bool IsRunning;
 
     public Timer(float time, bool startImmediately = true) {
         TotalTime = time;
@@ -30,16 +30,16 @@ public class Timer {
     }
 
     public virtual async Awaitable StartTimer() {
-        if (_isRunning) return;
+        if (IsRunning) return;
 
-        _cancellationTokenSource = new CancellationTokenSource();
-        _isRunning = true;
+        CancellationTokenSource = new CancellationTokenSource();
+        IsRunning = true;
         CurrentProgress = 0;
         OnBegin.Invoke();
 
         try {
             while (CurrentProgress < 1) {
-                await Awaitable.NextFrameAsync(_cancellationTokenSource.Token);
+                await Awaitable.NextFrameAsync(CancellationTokenSource.Token);
                 CurrentProgress += Time.deltaTime / TotalTime * Time.timeScale;
             }
 
@@ -49,14 +49,22 @@ public class Timer {
             OnCancel.Invoke();
         }
         finally {
-            _isRunning = false;
-            _cancellationTokenSource.Dispose();
+            IsRunning = false;
+            CancellationTokenSource.Dispose();
         }
     }
 
     public void CancelTimer() {
-        if (!_isRunning) return;
+        if (!IsRunning) return;
 
-        _cancellationTokenSource?.Cancel();
+        CancellationTokenSource?.Cancel();
     }
+
+    protected void CallBeginEvent() => OnBegin.Invoke();
+
+    protected void CallUpdateEvent() => OnUpdate.Invoke();
+
+    protected void CallCompleteEvent() => OnComplete.Invoke();
+
+    protected void CallCancelEvent() => OnCancel.Invoke();
 }

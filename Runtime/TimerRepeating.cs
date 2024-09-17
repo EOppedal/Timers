@@ -12,11 +12,11 @@ public class TimerRepeating : Timer {
     }
 
     public override async Awaitable StartTimer() {
-        if (_isRunning) return;
+        if (IsRunning) return;
 
-        _cancellationTokenSource = new CancellationTokenSource();
-        _isRunning = true;
-        OnBegin.Invoke();
+        CancellationTokenSource = new CancellationTokenSource();
+        IsRunning = true;
+        CallBeginEvent();
 
         try {
             while (TimesToRepeat == -1 || TimesRepeated <= TimesToRepeat ) {
@@ -24,19 +24,19 @@ public class TimerRepeating : Timer {
                 TimesRepeated++;
                 
                 while (CurrentProgress < 1) {
-                    await Awaitable.NextFrameAsync(_cancellationTokenSource.Token);
+                    await Awaitable.NextFrameAsync(CancellationTokenSource.Token);
                     CurrentProgress += Time.deltaTime / TotalTime * Time.timeScale;
                 }
 
-                OnComplete.Invoke();
+                CallCompleteEvent();
             }
         }
         catch (OperationCanceledException) {
-            OnCancel.Invoke();
+            CallCancelEvent();
         }
         finally {
-            _isRunning = false;
-            _cancellationTokenSource.Dispose();
+            IsRunning = false;
+            CancellationTokenSource.Dispose();
         }
     }
 }
