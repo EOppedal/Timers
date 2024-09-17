@@ -22,7 +22,7 @@ public class Timer {
 
     private float _currentProgress;
     protected CancellationTokenSource CancellationTokenSource;
-    protected bool IsRunning;
+    public bool IsRunning {get; protected set;}
 
     public Timer(float time, bool startImmediately = true) {
         TotalTime = time;
