@@ -34,6 +34,7 @@ public class Timer {
 
         _cancellationTokenSource = new CancellationTokenSource();
         _isRunning = true;
+        CurrentProgress = 0;
         OnBegin.Invoke();
 
         try {
