@@ -60,6 +60,14 @@ public class Timer {
         CancellationTokenSource?.Cancel();
     }
 
+    public void RestartTimer() {
+        if (IsRunning) {
+            CancelTimer();
+        }
+        
+        _ = StartTimer();
+    }
+
     protected void CallBeginEvent() => OnBegin.Invoke();
 
     protected void CallUpdateEvent() => OnUpdate.Invoke();
