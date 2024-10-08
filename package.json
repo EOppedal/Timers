@@ -6,6 +6,6 @@
     "name": "Erlend Eiken Oppedal",
     "email": "erlend.oppedal@gmail.com"
   },
-  "changelogUrl": "https://github.com/EOppedal/Timers/main/CHANGELOG.md",
+  "changelogUrl": "https://github.com/EOppedal/Timers/blob/main/CHANGELOG.md",
   "description": "Package Description:\nA versatile timer system for Unity, allowing you to run code on each frame/tick and upon completion. \nSupports pause, resume, restart, and completion events for flexible timing control."
 }
