@@ -13,3 +13,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2024-09-01
 ### Added
 - Initial package release with async timer support.
+
+[2.0.0]: https://github.com/EOppedal/Timers/releases/tag/v2.0.0
