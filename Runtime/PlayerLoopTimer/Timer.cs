@@ -5,10 +5,13 @@ namespace PlayerLoopTimer {
     public abstract class Timer {
         public float Duration;
         public float ElapsedTime;
+        public float CurrentProgress => ElapsedTime / Duration;
 
         protected bool Paused;
 
-        protected readonly Action TimerTickIncrementMethod;
+        protected readonly Action TimerTick;
+
+        public bool TimerRunning { private set; get; }
 
         public event Action OnBegin = delegate { };
         public event Action OnUpdate = delegate { };
@@ -20,20 +23,23 @@ namespace PlayerLoopTimer {
 
         protected Timer(float duration, Action timerTickIncrementMethod = null) {
             Duration = duration;
-            TimerTickIncrementMethod =
-                timerTickIncrementMethod ?? (() => ElapsedTime += Time.deltaTime * Time.timeScale);
+            TimerTick = timerTickIncrementMethod ?? (() => ElapsedTime += Time.deltaTime * Time.timeScale);
         }
 
         public virtual void StartTimer() {
+            if (TimerRunning) return;
+            
             OnBegin.Invoke();
 
             TimerController.AddTimer(this);
+            
+            TimerRunning = true;
         }
 
         public void UpdateTimer() {
             if (Paused) return;
 
-            TimerTickIncrementMethod();
+            TimerTick();
 
             OnUpdate.Invoke();
 
@@ -46,12 +52,15 @@ namespace PlayerLoopTimer {
             OnStop.Invoke();
 
             TimerController.RemoveTimer(this);
+            
+            TimerRunning = false;
         }
 
         public virtual void RestartTimer() {
             OnRestart.Invoke();
 
             ElapsedTime = 0;
+            TimerRunning = false;
             OnBegin.Invoke();
         }
 
