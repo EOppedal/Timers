@@ -28,7 +28,7 @@ namespace PlayerLoopTimer {
 
         public virtual void StartTimer() {
             if (TimerRunning) return;
-            
+
             ElapsedTime = 0;
             TimerRunning = true;
             OnBegin.Invoke();
@@ -53,7 +53,7 @@ namespace PlayerLoopTimer {
             OnStop.Invoke();
 
             TimerController.RemoveTimer(this);
-            
+
             TimerRunning = false;
         }
 
@@ -75,5 +75,19 @@ namespace PlayerLoopTimer {
 
             Paused = false;
         }
+
+        protected void InvokeOnBegin() => OnBegin.Invoke();
+
+        protected void InvokeOnUpdate() => OnUpdate.Invoke();
+
+        protected void InvokeOnStop() => OnStop.Invoke();
+
+        protected void InvokeOnComplete() => OnComplete.Invoke();
+
+        protected void InvokeOnRestart() => OnRestart.Invoke();
+
+        protected void InvokeOnPause() => OnPause.Invoke();
+
+        protected void InvokeOnResume() => OnResume.Invoke();
     }
 }

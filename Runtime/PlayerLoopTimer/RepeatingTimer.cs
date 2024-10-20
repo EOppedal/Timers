@@ -8,7 +8,8 @@ namespace PlayerLoopTimer {
         public RepeatingTimer(float duration, int repeatCount = -1, Action timerTickIncrementMethod = null) : base(duration,
             timerTickIncrementMethod) {
             OnComplete += () => ElapsedTime = 0;
-
+            OnComplete += InvokeOnBegin;
+            
             if (repeatCount > 0) {
                 RepeatCount = repeatCount;
                 OnComplete += () => {
