@@ -2,17 +2,18 @@
 using UnityEngine;
 
 namespace PlayerLoopTimer {
-    public abstract class Timer {
-        public float Duration;
-        public float ElapsedTime;
-        public float CurrentProgress => ElapsedTime / Duration;
+    public abstract class Timer : ITimer {
+        #region ---Fields---
+        public float Duration { get; set; }
+        public float ElapsedTime { get; protected set; }
+        public bool IsRunning { get; protected set; }
+        public bool IsPaused { get; protected set; }
 
-        protected bool Paused;
+        public float CurrentProgress => ElapsedTime / Duration;
 
         protected readonly Action TimerTick;
 
-        public bool TimerRunning { private set; get; }
-
+        #region ***---Events---***
         public event Action OnBegin = delegate { };
         public event Action OnUpdate = delegate { };
         public event Action OnStop = delegate { };
@@ -20,6 +21,8 @@ namespace PlayerLoopTimer {
         public event Action OnRestart = delegate { };
         public event Action OnPause = delegate { };
         public event Action OnResume = delegate { };
+        #endregion
+        #endregion
 
         protected Timer(float duration, Action timerTickIncrementMethod = null) {
             Duration = duration;
@@ -27,17 +30,20 @@ namespace PlayerLoopTimer {
         }
 
         public virtual void StartTimer() {
-            if (TimerRunning) return;
+            if (IsRunning) return;
 
             ElapsedTime = 0;
-            TimerRunning = true;
+            IsRunning = true;
             OnBegin.Invoke();
 
             TimerController.AddTimer(this);
         }
 
-        public void UpdateTimer() {
-            if (Paused) return;
+        /// <summary>
+        /// Early returns if 'IsPaused == true'
+        /// </summary>
+        public virtual void UpdateTimer() {
+            if (IsPaused) return;
 
             TimerTick();
 
@@ -49,12 +55,12 @@ namespace PlayerLoopTimer {
         }
 
         public virtual void StopTimer() {
-            if (!TimerRunning) return;
+            if (!IsRunning) return;
             OnStop.Invoke();
 
             TimerController.RemoveTimer(this);
 
-            TimerRunning = false;
+            IsRunning = false;
         }
 
         public virtual void RestartTimer() {
@@ -65,17 +71,20 @@ namespace PlayerLoopTimer {
         }
 
         public virtual void PauseTimer() {
+            if (IsPaused) return;
+            
             OnPause.Invoke();
-
-            Paused = true;
+            IsPaused = true;
         }
 
         public virtual void ResumeTimer() {
+            if (!IsPaused) return;
+            
             OnResume.Invoke();
-
-            Paused = false;
+            IsPaused = false;
         }
 
+        #region ---ProtectedInvocation---
         protected void InvokeOnBegin() => OnBegin.Invoke();
 
         protected void InvokeOnUpdate() => OnUpdate.Invoke();
@@ -89,5 +98,6 @@ namespace PlayerLoopTimer {
         protected void InvokeOnPause() => OnPause.Invoke();
 
         protected void InvokeOnResume() => OnResume.Invoke();
+        #endregion
     }
 }
