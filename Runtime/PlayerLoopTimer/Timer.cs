@@ -66,8 +66,14 @@ namespace PlayerLoopTimer {
         public virtual void RestartTimer() {
             OnRestart.Invoke();
 
-            StopTimer();
-            StartTimer();
+            if (IsRunning) {
+                OnStop.Invoke();
+                IsRunning = false;
+            }
+
+            ElapsedTime = 0;
+            IsRunning = true;
+            OnBegin.Invoke();
         }
 
         public virtual void PauseTimer() {
