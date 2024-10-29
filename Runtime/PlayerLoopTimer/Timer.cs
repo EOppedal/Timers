@@ -70,6 +70,9 @@ namespace PlayerLoopTimer {
                 OnStop.Invoke();
                 IsRunning = false;
             }
+            else {
+                TimerController.AddTimer(this);
+            }
 
             ElapsedTime = 0;
             IsRunning = true;
