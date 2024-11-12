@@ -24,9 +24,15 @@ namespace PlayerLoopTimer {
         #endregion
         #endregion
 
-        protected Timer(float duration, Action timerTickIncrementMethod = null) {
+        public enum TimerTickMethod { DeltaTimeScaled, DeltaTimeUnscaled, PhysicsUpdate }
+
+        protected Timer(float duration, TimerTickMethod tickMethod = TimerTickMethod.DeltaTimeScaled) {
             Duration = duration;
-            TimerTick = timerTickIncrementMethod ?? (() => ElapsedTime += Time.deltaTime * Time.timeScale);
+            TimerTick = tickMethod switch {
+                TimerTickMethod.DeltaTimeUnscaled => () => ElapsedTime += Time.deltaTime,
+                TimerTickMethod.PhysicsUpdate => () => ElapsedTime += Time.fixedDeltaTime,
+                _ => () => ElapsedTime += Time.deltaTime * Time.timeScale
+            };
         }
 
         public virtual void StartTimer() {

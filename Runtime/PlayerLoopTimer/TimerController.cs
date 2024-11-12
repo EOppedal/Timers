@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.LowLevel;
+using UnityEngine.PlayerLoop;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -31,6 +32,25 @@ namespace PlayerLoopTimer {
 
             PlayerLoop.SetPlayerLoop(playerLoop);
         }
+
+        private static void AddToFixedUpdate() {
+            var playerLoop = PlayerLoop.GetCurrentPlayerLoop();
+
+            for (var i = 0; i < playerLoop.subSystemList.Length; i++) {
+                if (playerLoop.subSystemList[i].type != typeof(FixedUpdate)) continue;
+                var newSystem = new PlayerLoopSystem {
+                    type = typeof(TimerController),
+                    updateDelegate = UpdateTimers
+                };
+
+                var fixedUpdateSystems = new List<PlayerLoopSystem>(playerLoop.subSystemList[i].subSystemList) { newSystem };
+                playerLoop.subSystemList[i].subSystemList = fixedUpdateSystems.ToArray();
+
+                PlayerLoop.SetPlayerLoop(playerLoop);
+                break;
+            }
+        }
+
 
         public static void AddTimer(Timer timer) {
             if (!Timers.Contains(timer)) {
