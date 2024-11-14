@@ -7,5 +7,5 @@
     "email": "erlend.oppedal@gmail.com"
   },
   "changelogUrl": "https://github.com/EOppedal/Timers/blob/main/CHANGELOG.md",
-  "description": "Package Description:\nA versatile timer system for Unity, allowing you to run code on each frame/tick and upon completion. \nSupports pause, resume, restart, and completion events for flexible timing control."
+  "description": "Package Description:\nA versatile timer system for Unity, allowing you to run code on each frame and upon events such as: \nOnBegin, OnUpdate, OnStop, OnComplete, OnRestart, OnPause, OnResume."
 }
