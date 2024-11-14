@@ -19,7 +19,7 @@ private void Start() {
 ```
 
 ### In this example:
-A new RepeatingTimer is created and anonymous functions are run by events. 
+A new RepeatingTimer is created and anonymous functions are run by different events invoked by the timer at different times. 
 
 ## Installation
 'Install package from Git URL' in the 'Package Manager'.
