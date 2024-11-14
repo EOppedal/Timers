@@ -2,9 +2,8 @@
 A flexible timer system for Unity that allows you to run code on each frame/tick, as well as on completion. It supports pause, restart, and other controls, making it easy to manage time-based events.
 
 ## Features
-Run code each frame/tick and upon completion.
-Supports pause, resume, restart, and stop functionality.
-Easy integration with Unity's lifecycle.
+Run code each frame and upon events such as OnBegin, OnUpdate, OnStop, OnComplete, OnRestart, OnPause, OnResume.
+
 ## Example Usage: 
 ```csharp
 private void Start() {
@@ -20,12 +19,7 @@ private void Start() {
 ```
 
 ### In this example:
-
-- The timer starts and triggers OnBegin when it starts.
-- It logs OnUpdate on each frame/tick with the current elapsed time.
-- Once the timer completes, it triggers OnComplete with the repeat count.
-- You can stop the timer manually, which triggers OnStop.
+A new RepeatingTimer is created and anonymous functions are run by events. 
 
 ## Installation
-Clone or download this repository.
-Add it to your Unity project under the Packages folder or reference it via Git.
+'Install package from Git URL' in the 'Package Manager'.
