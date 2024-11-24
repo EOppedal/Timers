@@ -1,6 +1,6 @@
 ﻿namespace PlayerLoopTimer {
     public class RepeatingTimer : Timer {
-        public int RepeatCount;
+        public readonly int RepeatCount;
         public int CurrentRepeatCount;
 
         public RepeatingTimer(float duration, int repeatCount = -1, 
