@@ -13,5 +13,6 @@ namespace PlayerLoopTimer {
         ITimerBuilderWithRequirements<T> WithOnRestart(Action action);
         ITimerBuilderWithRequirements<T> WithOnPause(Action action);
         ITimerBuilderWithRequirements<T> WithOnResume(Action action);
+        ITimerBuilderWithRequirements<T> WithDuration(float duration);
     }
 }

@@ -4,7 +4,7 @@ namespace PlayerLoopTimer {
     public class TimerBuilder<T> : ITimerBuilderWithRequirements<T> where T : Timer {
         private readonly T _timer;
 
-        protected TimerBuilder(T timer) {
+        public TimerBuilder(T timer) {
             _timer = timer;
         }
         
@@ -96,6 +96,14 @@ namespace PlayerLoopTimer {
                 _timer.OnResume += action;
             }
 
+            return this;
+        }
+
+        public ITimerBuilderWithRequirements<T> WithDuration(float duration) {
+            lock (_timer) {
+                _timer.Duration = duration;
+            }
+            
             return this;
         }
         #endregion
