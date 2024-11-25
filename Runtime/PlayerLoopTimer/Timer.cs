@@ -29,8 +29,8 @@ namespace PlayerLoopTimer {
         protected Timer(float duration, TimerTickMethod tickMethod = TimerTickMethod.DeltaTimeScaled) {
             Duration = duration;
             TimerTick = tickMethod switch {
-                TimerTickMethod.DeltaTimeUnscaled => () => ElapsedTime += Time.deltaTime,
-                _ => () => ElapsedTime += Time.deltaTime * Time.timeScale
+                TimerTickMethod.DeltaTimeUnscaled => () => ElapsedTime += Time.unscaledDeltaTime,
+                _ => () => ElapsedTime += Time.deltaTime
             };
         }
 
