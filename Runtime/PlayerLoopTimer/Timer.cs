@@ -24,12 +24,12 @@ namespace PlayerLoopTimer {
         #endregion
         #endregion
 
-        public enum TimerTickMethod { DeltaTimeScaled, DeltaTimeUnscaled }
+        public enum TickMethod { DeltaTimeScaled, DeltaTimeUnscaled }
 
-        protected Timer(float duration, TimerTickMethod tickMethod = TimerTickMethod.DeltaTimeScaled) {
+        protected Timer(float duration, TickMethod tickMethod = TickMethod.DeltaTimeScaled) {
             Duration = duration;
             TimerTick = tickMethod switch {
-                TimerTickMethod.DeltaTimeUnscaled => () => ElapsedTime += Time.unscaledDeltaTime,
+                TickMethod.DeltaTimeUnscaled => () => ElapsedTime += Time.unscaledDeltaTime,
                 _ => () => ElapsedTime += Time.deltaTime
             };
         }

@@ -1,18 +1,17 @@
 ﻿using System.Runtime.InteropServices;
+using static PlayerLoopTimer.Timer;
 
 namespace PlayerLoopTimer {
     public class IntervalTimerBuilder : TimerBuilder<IntervalTimer> {
-        protected IntervalTimerBuilder(IntervalTimer timer) : base(timer) {
+        private IntervalTimerBuilder(IntervalTimer timer) : base(timer) {
         }
 
-        public static IntervalTimerBuilder Start(float duration, float intervalTime,
-                [Optional] Timer.TimerTickMethod timerTickMethod) {
-            return new IntervalTimerBuilder(new IntervalTimer(duration, intervalTime, timerTickMethod));
+        public static IntervalTimerBuilder Start(float duration, float intervalTime, [Optional] TickMethod tickMethod) {
+            return new IntervalTimerBuilder(new IntervalTimer(duration, intervalTime, tickMethod));
         }
 
-        public static IntervalTimerBuilder Start(int intervalRepetitions, float intervalTime,
-                [Optional] Timer.TimerTickMethod timerTickMethod) {
-            return new IntervalTimerBuilder(new IntervalTimer(intervalRepetitions, intervalTime, timerTickMethod));
+        public static IntervalTimerBuilder Start(int repetitions, float intervalTime, [Optional] TickMethod tickMethod) {
+            return new IntervalTimerBuilder(new IntervalTimer(repetitions, intervalTime, tickMethod));
         }
     }
 }

@@ -4,7 +4,7 @@
         public int CurrentRepeatCount;
 
         public RepeatingTimer(float duration, int repeatCount = -1, 
-                TimerTickMethod timerTickMethod = TimerTickMethod.DeltaTimeScaled) : base(duration, timerTickMethod) {
+                TickMethod tickMethod = TickMethod.DeltaTimeScaled) : base(duration, tickMethod) {
             OnComplete += () => ElapsedTime = 0;
             OnComplete += InvokeOnBegin;
 

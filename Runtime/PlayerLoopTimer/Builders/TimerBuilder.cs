@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace PlayerLoopTimer {
     public class TimerBuilder<T> : ITimerBuilderWithRequirements<T> where T : Timer {
         private readonly T _timer;
 
-        public TimerBuilder(T timer) {
+        protected TimerBuilder(T timer) {
             _timer = timer;
         }
 

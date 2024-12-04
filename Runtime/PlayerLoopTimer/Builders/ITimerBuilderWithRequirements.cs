@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace PlayerLoopTimer {
     public interface ITimerBuilderWithRequirements<out T> where T : Timer {

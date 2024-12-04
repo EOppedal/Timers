@@ -10,12 +10,13 @@ namespace PlayerLoopTimer {
         private float _intervalTime;
         private int _currentIntervalIndex;
 
-        public IntervalTimer(float duration, float intervalTime, TimerTickMethod timerTickMethod = TimerTickMethod.DeltaTimeScaled) : base(duration, timerTickMethod) {
+        public IntervalTimer(float duration, float intervalTime, TickMethod tickMethod = TickMethod.DeltaTimeScaled) 
+            : base(duration, tickMethod) {
             InitializeTimer(intervalTime);
         }
 
-        public IntervalTimer(int intervalRepetitions, float intervalTime, TimerTickMethod timerTickMethod = TimerTickMethod.DeltaTimeScaled)
-            : base(intervalRepetitions * intervalTime, timerTickMethod) {
+        public IntervalTimer(int repetitions, float intervalTime, TickMethod tickMethod = TickMethod.DeltaTimeScaled)
+            : base(repetitions * intervalTime, tickMethod) {
             InitializeTimer(intervalTime);
         }
 

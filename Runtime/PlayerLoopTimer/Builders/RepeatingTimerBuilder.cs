@@ -1,13 +1,13 @@
 ﻿using System.Runtime.InteropServices;
+using static PlayerLoopTimer.Timer;
 
 namespace PlayerLoopTimer {
     public class RepeatingTimerBuilder : TimerBuilder<RepeatingTimer> {
-        public RepeatingTimerBuilder(RepeatingTimer timer) : base(timer) {
+        private RepeatingTimerBuilder(RepeatingTimer timer) : base(timer) {
         }
 
-        public static RepeatingTimerBuilder Start(float duration, [Optional] int repeatCount,
-                [Optional] Timer.TimerTickMethod timerTickMethod) {
-            return new RepeatingTimerBuilder(new RepeatingTimer(duration, repeatCount, timerTickMethod));
+        public static RepeatingTimerBuilder Start(float duration, [Optional] int repeatCount, [Optional] TickMethod tickMethod) {
+            return new RepeatingTimerBuilder(new RepeatingTimer(duration, repeatCount, tickMethod));
         }
     }
 }
