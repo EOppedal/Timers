@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PlayerLoopTimer {
     public class TimerBuilder<T> : ITimerBuilderWithRequirements<T> where T : Timer {
@@ -7,7 +8,7 @@ namespace PlayerLoopTimer {
         public TimerBuilder(T timer) {
             _timer = timer;
         }
-        
+
         public static TimerBuilder<T> Start(T timer) {
             return new TimerBuilder<T>(timer);
         }
@@ -28,74 +29,49 @@ namespace PlayerLoopTimer {
         }
         #endregion
 
+        private void AddActions(Action[] actions, Action<Action> addHandler) {
+            if (actions == null) throw new ArgumentNullException(nameof(actions));
+
+            lock (_timer) {
+                foreach (var action in actions) {
+                    addHandler(action);
+                }
+            }
+        }
+
         #region ***---OptionalActionSetters---***
-        public ITimerBuilderWithRequirements<T> WithOnBegin(Action action) {
-            if (action == null) throw new ArgumentNullException(nameof(action));
-            
-            lock (_timer) {
-                _timer.OnBegin += action;
-            }
-
+        public ITimerBuilderWithRequirements<T> WithOnBegin(params Action[] actions) {
+            AddActions(actions, action => _timer.OnBegin += action);
             return this;
         }
 
-        public ITimerBuilderWithRequirements<T> WithOnUpdate(Action action) {
-            if (action == null) throw new ArgumentNullException(nameof(action));
-
-            lock (_timer) {
-                _timer.OnUpdate += action;
-            }
-
+        public ITimerBuilderWithRequirements<T> WithOnUpdate(params Action[] actions) {
+            AddActions(actions, action => _timer.OnUpdate += action);
             return this;
         }
 
-        public ITimerBuilderWithRequirements<T> WithOnStop(Action action) {
-            if (action == null) throw new ArgumentNullException(nameof(action));
-
-            lock (_timer) {
-                _timer.OnStop += action;
-            }
-
+        public ITimerBuilderWithRequirements<T> WithOnStop(params Action[] actions) {
+            AddActions(actions, action => _timer.OnStop += action);
             return this;
         }
 
-        public ITimerBuilderWithRequirements<T> WithOnComplete(Action action) {
-            if (action == null) throw new ArgumentNullException(nameof(action));
-
-            lock (_timer) {
-                _timer.OnComplete += action;
-            }
-
+        public ITimerBuilderWithRequirements<T> WithOnComplete(params Action[] actions) {
+            AddActions(actions, action => _timer.OnComplete += action);
             return this;
         }
 
-        public ITimerBuilderWithRequirements<T> WithOnRestart(Action action) {
-            if (action == null) throw new ArgumentNullException(nameof(action));
-
-            lock (_timer) {
-                _timer.OnRestart += action;
-            }
-
+        public ITimerBuilderWithRequirements<T> WithOnRestart(params Action[] actions) {
+            AddActions(actions, action => _timer.OnRestart += action);
             return this;
         }
 
-        public ITimerBuilderWithRequirements<T> WithOnPause(Action action) {
-            if (action == null) throw new ArgumentNullException(nameof(action));
-
-            lock (_timer) {
-                _timer.OnPause += action;
-            }
-
+        public ITimerBuilderWithRequirements<T> WithOnPause(params Action[] actions) {
+            AddActions(actions, action => _timer.OnPause += action);
             return this;
         }
 
-        public ITimerBuilderWithRequirements<T> WithOnResume(Action action) {
-            if (action == null) throw new ArgumentNullException(nameof(action));
-
-            lock (_timer) {
-                _timer.OnResume += action;
-            }
-
+        public ITimerBuilderWithRequirements<T> WithOnResume(params Action[] actions) {
+            AddActions(actions, action => _timer.OnResume += action);
             return this;
         }
 
@@ -103,7 +79,7 @@ namespace PlayerLoopTimer {
             lock (_timer) {
                 _timer.Duration = duration;
             }
-            
+
             return this;
         }
         #endregion
